@@ -26,6 +26,7 @@ import cats.effect.std.NonEmptyHotswap.NonEmptyHotswapOptionalResourcesOpt
 import cats.effect.syntax.all._
 import cats.syntax.all._
 import fs2.Stream
+import org.http4s.internal.NonEmptyHotswapHelpers
 
 @annotation.nowarn("cat=deprecation")
 object Reconnect {
@@ -37,7 +38,7 @@ object Reconnect {
     type ConnResource = Resource[F, Either[Throwable, WSConnectionHighLevel[F]]]
 
     def currentResource(hs: NonEmptyHotswap[F, Option[ConnResource]]): F[ConnResource] =
-      hs.get.use(_.liftTo[F](new IllegalStateException("No active connection")))
+      NonEmptyHotswapHelpers.requireCurrent(hs, "No active connection")
 
     NonEmptyHotswap
       .empty[F, ConnResource]
@@ -65,7 +66,7 @@ object Reconnect {
               .background
               .as(
                 hs.get
-                  .evalMap(_.liftTo[F](new IllegalStateException("No active connection")))
+                  .evalMap(opt => NonEmptyHotswapHelpers.requireSome(opt, "No active connection"))
                   .flatten
                   .evalMap(_.liftTo)
               )
