@@ -94,6 +94,7 @@ lazy val core = libraryCrossProject("core")
       crypto.value,
       fs2Core.value,
       fs2Io.value,
+      ip4sCore.value,
       literally.value,
       munit.value % Test,
       scodecBits.value,
@@ -911,7 +912,7 @@ def http4sCrossProject(name: String, crossType: CrossType) =
     )
     .nativeEnablePlugins(ScalaNativeBrewedConfigPlugin)
     .nativeSettings(
-      tlVersionIntroduced := List("2.12", "2.13", "3").map(_ -> "0.23.32").toMap,
+      tlVersionIntroduced := List("2.12", "2.13", "3").map(_ -> "0.23.34").toMap,
       Test / nativeBrewFormulas ++= {
         if (sys.env.contains("DEVSHELL_DIR")) Set.empty else Set("s2n")
       },
