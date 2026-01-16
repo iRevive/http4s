@@ -44,6 +44,7 @@ import org.http4s.internal.CurlConverter
 import org.http4s.syntax.KleisliSyntax
 import org.typelevel.ci.CIString
 import org.typelevel.scalaccompat.annotation.nowarn213
+import org.typelevel.scalaccompat.annotation.nowarn3
 import org.typelevel.vault._
 
 import java.io.File
@@ -551,6 +552,7 @@ final class Request[F[_]] private (
     decodeWith(decoder, strict = true)(f)
 
   @nowarn213("cat=deprecation")
+  @nowarn3("cat=deprecation")
   override def hashCode(): Int = MurmurHash3.productHash(this)
 
   def canEqual(that: Any): Boolean = that match {
@@ -717,6 +719,7 @@ final class Response[F[_]] private (
     headers.get[`Set-Cookie`].foldMap(_.toList).map(_.cookie)
 
   @nowarn213("cat=deprecation")
+  @nowarn3("cat=deprecation")
   override def hashCode(): Int = MurmurHash3.productHash(this)
 
   def copy(
