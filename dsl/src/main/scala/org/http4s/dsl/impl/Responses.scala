@@ -131,10 +131,10 @@ trait Responses[F[_], G[_]] {
       status: MisdirectedRequest.type
   ): MisdirectedRequestOps[F, G] =
     new MisdirectedRequestOps[F, G](status, liftG)
-  implicit def http4sUnprocessableEntitySyntax(
-      status: UnprocessableEntity.type
-  ): UnprocessableEntityOps[F, G] =
-    new UnprocessableEntityOps[F, G](status, liftG)
+  implicit def http4sUnprocessableContentSyntax(
+      status: UnprocessableContent.type
+  ): UnprocessableContentOps[F, G] =
+    new UnprocessableContentOps[F, G](status, liftG)
   implicit def http4sLockedSyntax(status: Locked.type): LockedOps[F, G] =
     new LockedOps[F, G](status, liftG)
   implicit def http4sFailedDependencySyntax(
@@ -321,8 +321,8 @@ object Responses {
       val status: MisdirectedRequest.type,
       val liftG: G ~> F,
   ) extends EntityResponseGenerator[F, G]
-  final class UnprocessableEntityOps[F[_], G[_]](
-      val status: UnprocessableEntity.type,
+  final class UnprocessableContentOps[F[_], G[_]](
+      val status: UnprocessableContent.type,
       val liftG: G ~> F,
   ) extends EntityResponseGenerator[F, G]
   final class LockedOps[F[_], G[_]](val status: Locked.type, val liftG: G ~> F)

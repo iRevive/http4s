@@ -145,7 +145,7 @@ private[h2] class H2Stream[F[_]: Concurrent](
     s.state match {
       case StreamState.Open | StreamState.HalfClosedRemote =>
         if (bv.size.toInt <= s.writeWindow && s.writeWindow > 0) {
-          enqueue.offer(Chunk.singleton(H2Frame.Data(id, bv, None, endStream))) >> {
+          enqueue.offer(Chunk.singleton(H2Frame.Data(id, bv, None, endStream))) >>
             state
               .modify { s =>
                 val newState = if (endStream) {
@@ -164,7 +164,6 @@ private[h2] class H2Stream[F[_]: Concurrent](
                 )
               }
               .flatMap(state => if (state == StreamState.Closed) onClosed else Applicative[F].unit)
-          }
         } else {
           if (s.writeWindow > 0) {
             state
@@ -239,7 +238,9 @@ private[h2] class H2Stream[F[_]: Concurrent](
                         logger.error("Headers Unable to be parsed") >>
                           rstStream(H2Error.ProtocolError)
                     }
-                  case _ => s.trailWith(h.toList).void
+                  case _ =>
+                    if (headers.endStream) s.readBuffer.close *> s.trailWith(h.toList).void
+                    else s.trailWith(h.toList).void
                 }
               case H2Connection.ConnectionType.Server =>
                 request.tryGet.flatMap {

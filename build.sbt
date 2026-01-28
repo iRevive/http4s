@@ -20,37 +20,11 @@ ThisBuild / githubWorkflowJobSetup ~= { steps =>
     WorkflowStep.Use(
       UseRef.Public("cachix", "install-nix-action", "v27"),
       name = Some("Install Nix"),
-    ),
-    WorkflowStep.Use(
-      UseRef.Public("cachix", "cachix-action", "v15"),
-      name = Some("Install Cachix"),
-      params = Map("name" -> "http4s", "authToken" -> "${{ secrets.CACHIX_AUTH_TOKEN }}"),
-    ),
+    )
   ) ++ steps
 }
 
 ThisBuild / githubWorkflowSbtCommand := "nix develop .#${{ matrix.java }} -c sbt"
-
-ThisBuild / githubWorkflowAddedJobs ++= Seq(
-  WorkflowJob(
-    id = "coverage",
-    name = "Generate coverage report",
-    scalas = List(scala_213),
-    javas = List(JavaSpec.temurin("8")),
-    steps = githubWorkflowJobSetup.value.toList ++
-      List(
-        WorkflowStep.Sbt(List("coverage", "rootJVM/test", "coverageAggregate")),
-        WorkflowStep.Use(
-          UseRef.Public(
-            "codecov",
-            "codecov-action",
-            "v3",
-          ),
-          cond = Some("github.event_name != 'pull_request'"),
-        ),
-      ),
-  )
-)
 
 ThisBuild / jsEnv := {
   import org.scalajs.jsenv.nodejs.NodeJSEnv
@@ -171,11 +145,6 @@ lazy val tests = libraryCrossProject("tests")
       scalacheckEffectMunit.value,
     ),
     githubWorkflowArtifactUpload := false,
-  )
-  .nativeSettings(
-    libraryDependencies ++= Seq(
-      epollcat.value
-    )
   )
   .dependsOn(core, laws)
 
