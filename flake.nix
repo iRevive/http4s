@@ -2,7 +2,7 @@
   description = "Provision a dev environment";
 
   inputs = {
-    typelevel-nix.url = "github:typelevel/typelevel-nix";
+    typelevel-nix.url = "github:typelevel/typelevel-nix/sysroot";
     nixpkgs.follows = "typelevel-nix/nixpkgs";
     flake-utils.follows = "typelevel-nix/flake-utils";
   };
