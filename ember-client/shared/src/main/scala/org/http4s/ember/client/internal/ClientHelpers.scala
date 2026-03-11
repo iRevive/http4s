@@ -54,7 +54,6 @@ import org.typelevel.keypool._
 import java.io.IOException
 import scala.concurrent.duration._
 
-@annotation.nowarn("cat=deprecation")
 private[client] object ClientHelpers {
   def requestToSocketWithKey[F[_]: MonadThrow: Network](
       request: Request[F],

@@ -28,7 +28,6 @@ import cats.syntax.all._
 import fs2.Stream
 import org.http4s.internal.NonEmptyHotswapHelpers
 
-@annotation.nowarn("cat=deprecation")
 object Reconnect {
 
   def apply[F[_]](
