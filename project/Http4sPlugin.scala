@@ -105,7 +105,7 @@ object Http4sPlugin extends AutoPlugin {
     val catsEffect = "3.7.0"
     val catsParse = "1.1.0"
     val circe = "0.14.12"
-    val crypto = "0.2.5-RC1"
+    val crypto = "0.2.5"
     val cryptobits = "1.3"
     val disciplineCore = "1.7.0"
     val fs2 = "3.13.0-M7"

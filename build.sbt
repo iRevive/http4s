@@ -10,7 +10,7 @@ ThisBuild / tlBspCrossProjectPlatforms := Set(JVMPlatform)
 ThisBuild / tlBaseVersion := "0.23"
 ThisBuild / developers += tlGitHubDev("rossabaker", "Ross A. Baker")
 
-ThisBuild / tlCiReleaseBranches := Seq("series/0.23", "topic/0.23/sn-0.5")
+ThisBuild / tlCiReleaseBranches := Seq("series/0.23")
 ThisBuild / tlSitePublishBranch := Some("series/0.23")
 
 ThisBuild / scalafixAll / skip := tlIsScala3.value
@@ -226,7 +226,6 @@ lazy val laws = libraryCrossProject("laws", CrossType.Pure)
       catsLaws.value,
       disciplineCore.value,
       ip4sTestKit.value,
-      scalacheck.value,
       scalacheckEffectMunit.value,
       munitCatsEffect.value,
     ),
@@ -254,7 +253,6 @@ lazy val tests = libraryCrossProject("tests")
     libraryDependencies ++= Seq(
       munitCatsEffect.value,
       munitDiscipline.value,
-      scalacheck.value,
       scalacheckEffect.value,
       scalacheckEffectMunit.value,
     ),
@@ -422,7 +420,6 @@ lazy val clientTestkit = libraryCrossProject("client-testkit")
     description := "Client testkit for building http4s clients",
     startYear := Some(2014),
     libraryDependencies ++= Seq(
-      munit.value,
       munitCatsEffect.value,
     ),
     mimaPreviousArtifacts := Set.empty,
