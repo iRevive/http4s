@@ -420,7 +420,7 @@ lazy val clientTestkit = libraryCrossProject("client-testkit")
     description := "Client testkit for building http4s clients",
     startYear := Some(2014),
     libraryDependencies ++= Seq(
-      munitCatsEffect.value,
+      munitCatsEffect.value
     ),
     mimaPreviousArtifacts := Set.empty,
   )
